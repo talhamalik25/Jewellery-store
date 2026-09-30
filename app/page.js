@@ -1,69 +1,24 @@
 import Image from "next/image";
+import Link from "next/link";
+import Button from "@/components/Button";
+import CategoryCard from "@/components/CategoryCard";
+import ProductGrid from "@/components/ProductGrid";
+import { categories, products } from "@/lib/data";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+  return <main>
+    <section className="relative min-h-[560px] bg-[#ebe7df] md:min-h-[650px]">
+      <Image src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=2200&q=90" alt="Gold jewellery arranged in warm natural light" fill priority sizes="100vw" className="object-cover object-center" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
+      <div className="relative mx-auto flex min-h-[560px] max-w-7xl items-center px-5 py-20 md:min-h-[650px] md:px-10">
+        <div className="max-w-xl text-white"><p className="text-xs uppercase tracking-[0.24em]">A quieter kind of statement</p><h1 className="mt-6 font-serif text-5xl leading-[1.08] md:text-7xl">Made to keep.<br />Made to become yours.</h1><p className="mt-6 max-w-sm text-sm leading-6 text-white/85">Thoughtful jewellery for all the days that make a life.</p><Link href="/shop"><Button className="mt-9 bg-white text-stone-900 hover:bg-stone-100">Discover the collection</Button></Link></div>
+      </div>
+    </section>
+    <section className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-24">
+      <div className="mb-9 flex items-end justify-between"><div><p className="text-[10px] uppercase tracking-[0.2em] text-[#a08352]">Thoughtfully made</p><h2 className="mt-3 font-serif text-3xl md:text-4xl">The pieces you come back to</h2></div><Link href="/shop" className="hidden text-xs uppercase tracking-[0.14em] underline underline-offset-4 sm:block">View all pieces</Link></div>
+      <ProductGrid products={products.slice(0, 4)} />
+    </section>
+    <section className="bg-[#f2f0eb] py-20 md:py-24"><div className="mx-auto max-w-7xl px-5 md:px-10"><div className="mb-9"><p className="text-[10px] uppercase tracking-[0.2em] text-[#a08352]">Find your favourite</p><h2 className="mt-3 font-serif text-3xl md:text-4xl">A piece for every day</h2></div><div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">{categories.map((category) => <CategoryCard key={category.name} category={category} />)}</div></div></section>
+    <section id="story" className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-20 md:grid-cols-2 md:gap-20 md:px-10 md:py-28"><div className="relative aspect-[5/4] bg-stone-100"><Image src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=85" alt="A closer look at fine gold jewellery" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div><div className="max-w-md"><p className="text-[10px] uppercase tracking-[0.2em] text-[#a08352]">The Atelier approach</p><h2 className="mt-4 font-serif text-4xl leading-tight">Less, but chosen with care.</h2><p className="mt-5 text-sm leading-7 text-stone-600">We believe the best jewellery earns its place in your everyday. Each piece is designed with intention, made to be worn often, and kept for a long time.</p><Link href="/shop"><Button variant="outline" className="mt-8">Explore the collection</Button></Link></div></section>
+  </main>;
 }
