@@ -1,4 +1,5 @@
 import connectDB from "@/lib/mongodb";
+import { requireAdmin } from "@/lib/auth";
 import Product from "@/models/Product";
 
 export async function GET() {
@@ -31,6 +32,9 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
+
   let productData;
 
   try {

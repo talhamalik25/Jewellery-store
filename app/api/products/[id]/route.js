@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import connectDB from "@/lib/mongodb";
+import { requireAdmin } from "@/lib/auth";
 import Product from "@/models/Product";
 
 async function getId(params) {
@@ -35,6 +36,9 @@ export async function GET(_request, { params }) {
 }
 
 export async function PATCH(request, { params }) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
+
   const id = await getId(params);
 
   if (!mongoose.isObjectIdOrHexString(id)) {
@@ -96,6 +100,9 @@ export async function PATCH(request, { params }) {
 }
 
 export async function DELETE(_request, { params }) {
+  const auth = await requireAdmin();
+  if (auth.error) return auth.error;
+
   const id = await getId(params);
 
   if (!mongoose.isObjectIdOrHexString(id)) {
