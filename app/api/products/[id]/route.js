@@ -45,11 +45,17 @@ export async function PATCH(request, { params }) {
   try {
     updates = await request.json();
   } catch {
-    return Response.json({ error: "Request body must contain valid JSON." }, { status: 400 });
+    return Response.json(
+      { error: "Request body must contain valid JSON." },
+      { status: 400 }
+    );
   }
 
   if (!updates || Array.isArray(updates) || typeof updates !== "object") {
-    return Response.json({ error: "Request body must be a JSON object." }, { status: 400 });
+    return Response.json(
+      { error: "Request body must be a JSON object." },
+      { status: 400 }
+    );
   }
 
   try {
@@ -61,18 +67,31 @@ export async function PATCH(request, { params }) {
     });
 
     if (!product) {
-      return Response.json({ error: "Product not found." }, { status: 404 });
+      return Response.json(
+        { error: "Product not found." },
+        { status: 404 }
+      );
     }
 
     return Response.json(product, { status: 200 });
   } catch (error) {
     if (error.name === "ValidationError") {
-      const details = Object.values(error.errors).map((validationError) => validationError.message);
-      return Response.json({ error: "Product validation failed.", details }, { status: 400 });
+      const details = Object.values(error.errors).map(
+        (validationError) => validationError.message
+      );
+
+      return Response.json(
+        { error: "Product validation failed.", details },
+        { status: 400 }
+      );
     }
 
     console.error("Failed to update product:", error);
-    return Response.json({ error: "Unable to update product." }, { status: 500 });
+
+    return Response.json(
+      { error: "Unable to update product." },
+      { status: 500 }
+    );
   }
 }
 
