@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import CartActions from "@/components/CartActions";
 import { formatPrice } from "@/lib/data";
 
 export default function ProductDetails({ id }) {
@@ -43,6 +44,7 @@ export default function ProductDetails({ id }) {
         <p className="mt-5 text-lg">{formatPrice(product.price)}</p>
         <p className="mt-7 max-w-lg text-sm leading-7 text-stone-600">{product.description}</p>
         <p className="mt-6 text-xs uppercase tracking-[0.12em] text-stone-500">{product.stock > 0 ? `${product.stock} available` : "Currently out of stock"}</p>
+        <CartActions product={product} />
       </div>
     </section>
   </main>;

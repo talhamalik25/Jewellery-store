@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CartActions from "@/components/CartActions";
 import { formatPrice } from "@/lib/data";
 
 export default function ProductCard({ product }) {
@@ -12,5 +13,6 @@ export default function ProductCard({ product }) {
       </div>
     </Link>
     <div className="flex justify-between gap-3 pt-4"><div><p className="text-sm">{product.name}</p><p className="mt-1 text-xs text-stone-500">{product.category}</p></div><p className="shrink-0 text-sm">{formatPrice(product.price)}</p></div>
+    <CartActions product={product} compact />
   </article>;
 }

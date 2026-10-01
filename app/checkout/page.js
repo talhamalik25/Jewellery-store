@@ -140,8 +140,8 @@ export default function CheckoutPage() {
             const price = Number(product?.price);
             const quantity = Number(item.quantity);
             return <div key={product?._id || index} className="flex justify-between gap-4 py-4 text-sm">
-              <div><p>{product?.name || "Unavailable product"}</p><p className="mt-1 text-xs text-stone-500">Qty {quantity} × {formatPrice(Number.isFinite(price) ? price : 0)}</p></div>
-              <span className="shrink-0">{formatPrice(Number.isFinite(price * quantity) ? price * quantity : 0)}</span>
+              <div><p>{product?.name || "Unavailable product"}</p><p className="mt-1 text-xs text-stone-500">Quantity: {quantity}</p><p className="mt-1 text-xs text-stone-500">Price: {formatPrice(Number.isFinite(price) ? price : 0)}</p></div>
+              <div className="shrink-0 text-right"><p className="text-xs text-stone-500">Subtotal</p><p className="mt-1">{formatPrice(Number.isFinite(price * quantity) ? price * quantity : 0)}</p></div>
             </div>;
           })}
         </div>

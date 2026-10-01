@@ -24,9 +24,11 @@ function normalizeCart(cart) {
 async function readResponse(response) {
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(response.status === 401
+    const error = new Error(response.status === 401
       ? "Please sign in to view and manage your bag."
       : data.error || "Something went wrong. Please try again.");
+    error.status = response.status;
+    throw error;
   }
   return data;
 }
@@ -62,10 +64,14 @@ export function CartProvider({ children }) {
       const response = await fetch(url, { credentials: "same-origin", ...options });
       const data = await readResponse(response);
       setItems(normalizeCart(data.cart));
-      return true;
+      return { success: true };
     } catch (requestError) {
       setError(requestError.message || "Could not update your bag. Please try again.");
-      return false;
+      return {
+        success: false,
+        status: requestError.status || 0,
+        message: requestError.message || "Could not update your bag. Please try again.",
+      };
     } finally {
       setBusy(false);
     }
@@ -75,7 +81,7 @@ export function CartProvider({ children }) {
     const productId = product?._id || product?.id;
     if (!productId) {
       setError("This product could not be added to your bag.");
-      return Promise.resolve(false);
+      return Promise.resolve({ success: false, status: 0, message: "This product could not be added to your bag." });
     }
     return mutateCart("/api/cart", {
       method: "POST",
