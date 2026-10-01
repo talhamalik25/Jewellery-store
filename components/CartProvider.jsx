@@ -1,35 +1,103 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext(null);
 
+function normalizeCart(cart) {
+  return (cart?.items || []).map((item) => {
+    const product = item.product && typeof item.product === "object" ? item.product : null;
+    const id = product?._id || item.product;
+
+    return {
+      id: typeof id === "string" ? id : id?.toString(),
+      name: product?.name || "Unavailable product",
+      price: product?.price ?? 0,
+      category: product?.category || "",
+      image: product?.image || "",
+      stock: product?.stock ?? 0,
+      quantity: item.quantity,
+    };
+  });
+}
+
+async function readResponse(response) {
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(response.status === 401
+      ? "Please sign in to view and manage your bag."
+      : data.error || "Something went wrong. Please try again.");
+  }
+  return data;
+}
+
 export function CartProvider({ children }) {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  function addItem(product, quantity) {
-    setItems((current) => {
-      const existing = current.find((item) => item.id === product.id);
-      if (existing) {
-        return current.map((item) => item.id === product.id
-          ? { ...item, quantity: Math.min(product.stock, item.quantity + quantity) }
-          : item);
-      }
-      return [...current, { ...product, quantity }];
+  const loadCart = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch("/api/cart", { credentials: "same-origin" });
+      const data = await readResponse(response);
+      setItems(normalizeCart(data.cart));
+    } catch (requestError) {
+      setError(requestError.message || "Could not load your bag. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadCart();
+  }, [loadCart]);
+
+  async function mutateCart(url, options) {
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch(url, { credentials: "same-origin", ...options });
+      const data = await readResponse(response);
+      setItems(normalizeCart(data.cart));
+      return true;
+    } catch (requestError) {
+      setError(requestError.message || "Could not update your bag. Please try again.");
+      return false;
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function addItem(product, quantity = 1) {
+    const productId = product?._id || product?.id;
+    if (!productId) {
+      setError("This product could not be added to your bag.");
+      return Promise.resolve(false);
+    }
+    return mutateCart("/api/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId, quantity }),
     });
   }
 
   function updateQuantity(id, quantity) {
-    setItems((current) => current
-      .map((item) => item.id === id ? { ...item, quantity } : item)
-      .filter((item) => item.quantity > 0));
+    if (!Number.isInteger(quantity) || quantity < 1) return Promise.resolve(false);
+    return mutateCart(`/api/cart/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity }),
+    });
   }
 
   function removeItem(id) {
-    setItems((current) => current.filter((item) => item.id !== id));
+    return mutateCart(`/api/cart/${encodeURIComponent(id)}`, { method: "DELETE" });
   }
 
-  return <CartContext.Provider value={{ items, addItem, updateQuantity, removeItem }}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={{ items, loading, busy, error, loadCart, addItem, updateQuantity, removeItem }}>{children}</CartContext.Provider>;
 }
 
 export function useCart() {
