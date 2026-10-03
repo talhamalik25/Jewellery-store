@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/components/CartProvider";
 
 export default function Navbar() {
   const { items } = useCart();
+  const pathname = usePathname();
   const itemCount = items.reduce((total, item) => total + item.quantity, 0);
+  if (pathname === "/") return null;
   return <header className="border-b border-stone-200 bg-[#faf9f6]">
     <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 md:px-10">
       <Link href="/" className="font-serif text-2xl tracking-[0.12em]">ATELIER <span className="text-[#aa8752]">&</span> CO.</Link>

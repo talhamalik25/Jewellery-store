@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/") return null;
   return <footer className="bg-stone-900 text-stone-200">
     <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-3 md:px-10">
       <div><Link href="/" className="font-serif text-xl tracking-[0.12em]">ATELIER <span className="text-[#c3a878]">&</span> CO.</Link><p className="mt-4 max-w-xs text-sm leading-6 text-stone-400">Considered pieces, made to be treasured for years to come.</p></div>
