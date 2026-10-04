@@ -220,3 +220,24 @@ src/
 6. Always build responsive (390, 768, 1440).
 7. Keep code typed, clean, and small. No inline magic numbers when a token exists.
 8. If something in the screenshot conflicts with this file, follow the screenshot for layout and this file for tokens, and tell me about the conflict.
+## 15. Design Extension for Non-Landing Pages (no reference screenshots)
+
+There are no screenshots for these pages. The landing page is the reference.
+Derive everything from it:
+- Reuse existing tokens, components, fonts, radius, spacing, and motion. Do not
+  introduce new colors, fonts, or visual styles.
+- Same dark chocolate luxury feel: large wide headings, pill buttons, 24px
+  cards, hairline borders, generous whitespace, calm motion.
+- Page header pattern: small muted breadcrumb, large heading (Unbounded),
+  short muted description.
+- Forms: pill inputs on surface color, visible labels, inline validation
+  errors in a soft red that passes contrast on dark, loading state on submit
+  buttons.
+- Tables and lists (admin): surface cards with hairline row dividers, sticky
+  header, pill status badges, row hover with surface-alt.
+- Admin panel: same palette but denser and calmer. Left sidebar (collapsible),
+  top bar with search and profile menu, content on surface cards. Less
+  decoration, more clarity. Entry animations minimal.
+- Every page needs loading (skeleton), empty, and error states.
+- Strict image rule from 9.1 still applies. Real product images only, never
+  code-drawn imitations. Icons may be inline SVG or lucide-react.
