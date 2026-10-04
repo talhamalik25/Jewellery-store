@@ -7,7 +7,7 @@ export default function AuthLayout({ children }) {
     <main className="flex flex-1 items-center py-8 md:py-16">
       <Container>
         <Card as="div" className="mx-auto grid w-full max-w-container overflow-hidden p-0 md:grid-cols-2">
-          <aside className="relative hidden md:block">
+          <aside className="relative hidden min-h-[560px] md:block lg:min-h-[640px]">
             <Image
               src="/images/hero/hero-model.webp"
               alt="Model wearing a diamond necklace"

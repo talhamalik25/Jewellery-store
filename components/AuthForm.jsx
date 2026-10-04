@@ -150,9 +150,10 @@ export default function AuthForm({ mode, resetToken = "" }) {
       <h1 className="mt-3 font-heading text-hero font-medium leading-tight tracking-[-0.045em]">{content.title}</h1>
       <p className="mt-4 max-w-prose text-body text-muted">{content.description}</p>
 
+      {isReset && !resetToken && <p className="mt-6 rounded-chip border border-[#b76b62]/50 bg-[#4b2925]/45 px-4 py-3 text-body text-[#f0b6ad]" role="alert">This reset link is missing or expired. Request a new one to continue.</p>}
       {successMessage && <p className="mt-6 rounded-card border border-border bg-surface-alt p-4 text-body text-text" role="status">{successMessage} <Link href="/login" className="underline decoration-accent-soft underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-soft">Sign in</Link></p>}
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-8 space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-8 space-y-5" hidden={isReset && !resetToken}>
         {isRegister && <Input {...register("name")} id="auth-name" label="Name" labelHidden={false} autoComplete="name" placeholder="Your name" error={errors.name?.message} />}
         {(mode === "login" || isRegister || isForgot) && <Input {...register("email")} id="auth-email" label="Email address" labelHidden={false} type="email" autoComplete="email" placeholder="you@example.com" error={errors.email?.message} />}
 

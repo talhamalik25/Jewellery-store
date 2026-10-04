@@ -45,7 +45,7 @@ const Input = forwardRef(function Input({
         </button>
       )}
       </div>
-      {error && <p id={errorId} className="mt-2 text-caption text-text" role="alert">{error}</p>}
+      {error && <p id={errorId} className="mt-2 text-caption text-[#f0b6ad]" role="alert">{error}</p>}
     </div>
   );
 });
