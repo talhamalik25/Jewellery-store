@@ -18,3 +18,4 @@ All photos below are from Unsplash and are used under the Unsplash License. Prod
 | `works/zoe-earrings.webp` | [Woman wearing gold-colored earrings](https://unsplash.com/photos/woman-wearing-gold-colored-earrings-w7n3PdWKZbI) | Kevin Laminto |
 | `works/hibiscus-ring.webp` | [Hands adorned with gold jewelry](https://unsplash.com/photos/hands-adorned-with-gold-jewelry-1BWZXZles_M) | Divaris Shirichena |
 | `works/necklace-portrait.webp` | [A woman wearing a gold-colored necklace](https://unsplash.com/photos/selective-focus-photo-of-woman-wearing-gold-colored-necklace-fs2tAFCFtUE) | Daria Magazzu |
+| `hands/watch-on-hands.webp` | [Woman's hands with rings and bracelet on bag](https://unsplash.com/photos/womans-hands-with-rings-and-bracelet-on-bag-6aZTH_X5pMg) | Maximus Beaumont |
