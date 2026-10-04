@@ -43,9 +43,9 @@ export default function Navbar({ variant }) {
       : "pointer-events-none invisible max-h-0 -translate-y-2 opacity-0";
 
     return (
-      <header className="sticky top-0 z-50 w-full bg-background/70 py-3 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 -mb-16 w-full bg-transparent py-2 backdrop-blur-xl">
         <Container className="relative">
-          <div className="flex min-h-14 items-center justify-between gap-4 rounded-pill border border-border bg-background/85 px-4 backdrop-blur-xl">
+          <div className="flex min-h-14 items-center justify-between gap-4 rounded-pill border border-border bg-surface/90 px-4 backdrop-blur-xl">
             <Link href="/" className="shrink-0 font-heading text-xs font-semibold tracking-wide text-text" aria-label={heroContent.brand + " home"} onClick={closeMenu}>
               {heroContent.brand}
             </Link>

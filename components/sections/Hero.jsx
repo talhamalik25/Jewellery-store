@@ -1,7 +1,9 @@
+
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Container from "@/components/ui/Container";
@@ -10,8 +12,8 @@ import { getMotionVariants } from "@/lib/motion";
 
 function GemMark() {
   return (
-    <span className="grid size-16 shrink-0 place-items-center rounded-full border border-border bg-gradient-to-br from-accent-soft via-accent to-surface-alt text-3xl text-text md:size-20" role="img" aria-label="Gemstone illustration">
-      <span aria-hidden="true">✧</span>
+    <span className="relative size-16 shrink-0 overflow-hidden rounded-full border border-border md:size-20">
+      <Image src="/images/hero/gemstone-ring.webp" alt="Gold diamond ring on a black background" fill sizes="80px" className="object-cover" />
     </span>
   );
 }
@@ -20,16 +22,18 @@ export default function Hero() {
   const variants = getMotionVariants(Boolean(useReducedMotion()));
 
   return (
-    <section className="relative isolate overflow-hidden bg-background pb-8 text-text md:pb-12" aria-labelledby="home-hero-title">
+    <section className="relative isolate overflow-hidden bg-background pb-8 text-text md:pb-12 mt-20" aria-labelledby="home-hero-title">
       <Container className="relative">
-        <div className="relative isolate flex min-h-[78svh] items-end overflow-hidden rounded-image bg-gradient-to-br from-surface via-background to-surface-alt max-md:min-h-[78svh] md:min-h-[min(78svh,800px)]">
-          <div
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_62%_30%,color-mix(in_srgb,var(--color-accent-soft)_36%,transparent),transparent_48%),linear-gradient(110deg,var(--color-surface),var(--color-background)_58%,var(--color-surface-alt))]"
-            role="img"
-            aria-label="Replaceable dark jewelry campaign image placeholder"
+        <div className="relative isolate flex min-h-[78svh] items-end overflow-hidden rounded-image bg-surface max-md:min-h-[78svh] md:min-h-[min(78svh,800px)]">
+          <Image
+            src="/images/hero/hero-model.webp"
+            alt="Model wearing a diamond necklace over a black dress"
+            fill
+            priority
+            sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1280px) calc(100vw - 48px), 1280px"
+            className="object-cover object-[50%_12%]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/50 via-background/10 to-background/40" aria-hidden="true" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/20" aria-hidden="true" />
+          <div className="absolute inset-0 bg-background/50" aria-hidden="true" />
 
           <motion.div
             className="relative z-10 w-full max-w-5xl px-4 pb-16 pt-24 md:px-10 md:pb-24 lg:px-12"
@@ -85,9 +89,16 @@ export default function Hero() {
                 </div>
                 {card.kind === "rating" && (
                   <span className="ml-auto flex shrink-0 pl-2" aria-hidden="true">
-                    <i className="size-8 rounded-full border border-text bg-gradient-to-br from-surface-alt to-muted" />
-                    <i className="-ml-2 size-8 rounded-full border border-text bg-gradient-to-br from-surface-alt to-muted" />
-                    <i className="-ml-2 size-8 rounded-full border border-text bg-gradient-to-br from-surface-alt to-muted" />
+                    {heroContent.avatars.map((avatar, index) => (
+                      <Image
+                        key={avatar.src}
+                        src={avatar.src}
+                        alt={avatar.alt}
+                        width={32}
+                        height={32}
+                        className={(index ? "-ml-2 " : "") + "size-8 rounded-full border border-text object-cover"}
+                      />
+                    ))}
                   </span>
                 )}
               </Card>

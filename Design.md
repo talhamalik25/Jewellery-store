@@ -162,6 +162,12 @@ Use `clamp()` for fluid sizes.
 - Every image has meaningful alt text. Decorative images use `alt=""`.
 - Icons: inline SVG or lucide-react.
 
+### 9.1 Strict Photo Asset Rule
+- Never draw, recreate, or imitate photos using CSS, SVG, canvas, gradients, or charts.
+- Every photo (jewelry, hands, models, avatars, backgrounds) must be a real image file in `/public/images`, rendered with `next/image`.
+- Only small UI icons (arrows, stars, diamond shape icons) may be inline SVG.
+- Attached screenshots are layout references only; do not reproduce their photography.
+
 ## 10. Data and Backend
 
 - Components receive data via props, never fetch inside presentational components.

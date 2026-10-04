@@ -15,6 +15,11 @@ export const heroContent = {
     { label: "See Collection", href: "/shop", variant: "outline" },
   ],
   slides: { current: "01", total: "04" },
+  avatars: [
+    { src: "/images/avatars/customer-1.webp", alt: "Customer portrait" },
+    { src: "/images/avatars/customer-2.webp", alt: "Customer portrait" },
+    { src: "/images/avatars/customer-3.webp", alt: "Customer portrait" },
+  ],
   cards: [
     {
       id: "craft",
