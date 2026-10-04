@@ -13,9 +13,9 @@ export async function generateMetadata({ params }) {
     title: `${name} | Atelier & Co.`,
     description,
     openGraph: {
+      type: "website",
       title: `${name} | Atelier & Co.`,
       description,
-      images: [{ url: "/images/hero/gemstone-ring.webp", alt: `${name} by Atelier & Co.` }],
     },
   };
 }

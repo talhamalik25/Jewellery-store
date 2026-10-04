@@ -24,6 +24,7 @@ export default function Navbar({ variant }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const itemCount = items.reduce((total, item) => total + item.quantity, 0);
   const isHero = variant === "hero";
+  const openBag = () => window.dispatchEvent(new Event("atelier-open-cart"));
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -61,10 +62,15 @@ export default function Navbar({ variant }) {
             <div className="ml-auto hidden items-center gap-2 lg:flex">
               <IconButton label="Search" icon={<SearchIcon />} />
               <Button as={Link} href="/shop" variant="outline" size="sm" className="min-w-20">Shop</Button>
+              <Button type="button" onClick={openBag} variant="outline" size="sm" className="min-w-20">Bag ({itemCount})</Button>
               <Button as={Link} href="/login" variant="primary" size="sm" className="min-w-20">Login</Button>
             </div>
 
             <div className="ml-auto flex items-center gap-2 lg:hidden">
+              <button type="button" onClick={openBag} aria-label={`Open bag, ${itemCount} items`} className="relative grid size-9 place-items-center rounded-full border border-border text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-soft focus-visible:outline-offset-2">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M9 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                {itemCount > 0 && <span className="absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full bg-text px-1 text-[9px] font-medium text-background">{itemCount}</span>}
+              </button>
               <Button as={Link} href="/login" variant="primary" size="sm">Login</Button>
               <button
                 className="inline-flex size-9 flex-col items-center justify-center gap-1.5 rounded-full border border-border bg-transparent text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-soft focus-visible:outline-offset-2"

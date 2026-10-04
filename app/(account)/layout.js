@@ -7,6 +7,9 @@ import Card from "@/components/ui/Card";
 const accountLinks = [
   { href: "/cart", label: "Your bag" },
   { href: "/orders", label: "Your orders" },
+  { href: "/account/profile", label: "Profile" },
+  { href: "/account/addresses", label: "Addresses" },
+  { href: "/wishlist", label: "Wishlist" },
 ];
 
 export default async function AccountLayout({ children }) {

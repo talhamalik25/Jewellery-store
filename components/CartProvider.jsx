@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 const CartContext = createContext(null);
 
@@ -34,39 +35,53 @@ async function readResponse(response) {
 }
 
 export function CartProvider({ children }) {
+  const { status: authStatus } = useAuth();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [errorStatus, setErrorStatus] = useState(0);
   const [busy, setBusy] = useState(false);
 
   const loadCart = useCallback(async () => {
     setLoading(true);
     setError("");
+    setErrorStatus(0);
     try {
       const response = await fetch("/api/cart", { credentials: "same-origin" });
       const data = await readResponse(response);
       setItems(normalizeCart(data.cart));
+      setErrorStatus(0);
     } catch (requestError) {
       setError(requestError.message || "Could not load your bag. Please try again.");
+      setErrorStatus(requestError.status || 0);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    loadCart();
+    void Promise.resolve().then(loadCart);
   }, [loadCart]);
+
+  useEffect(() => {
+    if (authStatus === "authenticated" && errorStatus === 401) {
+      void Promise.resolve().then(loadCart);
+    }
+  }, [authStatus, errorStatus, loadCart]);
 
   async function mutateCart(url, options) {
     setBusy(true);
     setError("");
+    setErrorStatus(0);
     try {
       const response = await fetch(url, { credentials: "same-origin", ...options });
       const data = await readResponse(response);
       setItems(normalizeCart(data.cart));
+      setErrorStatus(0);
       return { success: true };
     } catch (requestError) {
       setError(requestError.message || "Could not update your bag. Please try again.");
+      setErrorStatus(requestError.status || 0);
       return {
         success: false,
         status: requestError.status || 0,
@@ -103,7 +118,7 @@ export function CartProvider({ children }) {
     return mutateCart(`/api/cart/${encodeURIComponent(id)}`, { method: "DELETE" });
   }
 
-  return <CartContext.Provider value={{ items, loading, busy, error, loadCart, addItem, updateQuantity, removeItem }}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={{ items, loading, busy, error, errorStatus, loadCart, addItem, updateQuantity, removeItem }}>{children}</CartContext.Provider>;
 }
 
 export function useCart() {
