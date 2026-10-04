@@ -6,7 +6,7 @@ export default async function AdminLayout({ children }) {
   const { user, error } = await getAuthenticatedUser();
 
   if (error) {
-    if (error.status === 401) redirect("/login");
+    if (error.status === 401) redirect(`/login?next=${encodeURIComponent("/admin")}`);
     redirect("/");
   }
 
